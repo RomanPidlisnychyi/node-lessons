@@ -1,8 +1,3 @@
-// test_admin
-// LZbPNjgT9EEhIypX
-
-// mongodb+srv://test_admin:LZbPNjgT9EEhIypX@lucky-mongodb-exapmle.komyo.mongodb.net/<dbname>?retryWrites=true&w=majority
-
 const mongodb = require('mongodb');
 const { MongoClient } = mongodb;
 const DB_NAME = 'test_db';
