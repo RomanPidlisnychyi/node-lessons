@@ -1,0 +1,1 @@
+const importedFile = require("./fileForImport");

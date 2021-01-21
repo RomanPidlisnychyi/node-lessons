@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat</title>
+  </head>
+  <body>
+    <ul id="message"></ul>
+    <form id="message-form" action="">
+      <input id="j" name="join" autocomplete="off" />
+      <input id="m" name="chat message" autocomplete="off" />
+      <button type="submit">Send</button>
+    </form>
+
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+    <script>
+      const socket = io();
+      const messageList = document.getElementById('message');
+      const messageForm = document.getElementById('message-form');
+      const messageInput = document.getElementById('m');
+      const joinInput = document.getElementById('j');
+
+      // joinInput.addEventListener('input', e => {
+      //   text = e.target.value;
+      // });
+
+      // messageInput.addEventListener('input', e => {
+      //   text = e.target.value;
+      // });
+
+      const id = '600513deb8ffe82710564603';
+
+      messageForm.addEventListener('submit', e => {
+        e.preventDefault();
+
+        const join = e.target[0];
+        const message = e.target[1];
+        console.log('join', join);
+        console.log('message', message);
+
+        const data = join.value
+          ? join.value
+          : id
+          ? { message: message.value, to: id }
+          : message.value;
+
+        const listened = join.value ? join.name : message.name;
+        socket.emit(listened, data);
+        const time = String(new Date()).substring(15, 21);
+
+        joinInput.value = '';
+        messageInput.value = '';
+        // msgerChat.scrollTop += 500;
+      });
+      socket.on('chat message', msg => {
+        const li = document.createElement('li');
+        const time = String(new Date()).substring(15, 21);
+        li.textContent = `${time}: ${msg}`;
+        messageList.append(li);
+      });
+      socket.on('errorMessage', err => {
+        console.log(err.message);
+      });
+      socket.on(id, msg => {
+        console.log(msg);
+      });
+    </script>
+    <!-- <script src="./index.js" type="module"></script> -->
+  </body>
+</html>
